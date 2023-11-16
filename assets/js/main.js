@@ -1,5 +1,37 @@
 (
     async () => {
+        const dynamicImport = (route) => 
+            import(route).then( module =>
+                module.default
+            ).catch( error => 
+                error
+            );
+        const Route = await dynamicImport('./modules/routing/route.js');
+        const RouteManager = await dynamicImport('./modules/routing/main.js');
+        const route = new Route({
+            url: "/",
+            redirects: "/app",
+        });
+        const mainRoute = new Route({
+            url: "/app",
+            component: ()=>console.log('main_component'),
+        });
+        const aboutRoute = new Route({
+            url: "/about",
+            component: ()=>console.log('main_component'),
+            precondition: {
+                status: false,
+                callback: ()=> Router.goTo('/app'),
+            }
+        });
+        const Router = new RouteManager({
+            routes: [
+                route,
+                mainRoute,
+                aboutRoute,
+            ],
+        });
+        Router.goTo('/about');
         const canSaveToIndexDB = () => {
             return !!window?.indexedDB;
         }
@@ -200,9 +232,9 @@
             database_name,
             store_name,
         } = readAccessKey(access_key);
-        // startTimer(300, ()=>{
-        //     console.log("Closing store...");
-        // });
+        startTimer(300, ()=>{
+            console.log("Closing store...");
+        });
         const name = "PassTest";
         const description = "Contraseña de prueba.";
         const password = "ramdom_password123.TEST";
