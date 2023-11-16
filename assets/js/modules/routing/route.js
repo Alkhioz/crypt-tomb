@@ -1,13 +1,13 @@
 export default class Route 
 {
     #url;
-    #component;
+    #render;
     #precondition;
     #redirects_to;
     constructor(params)
     {
         this.#url = params?.url;
-        this.#component = params?.component;
+        this.#render = params?.render;
         this.#precondition = params?.precondition;
         this.#redirects_to = params?.redirects;
     }
@@ -19,9 +19,9 @@ export default class Route
     {
         return this.#redirects_to;
     }
-    getComponent()
+    render()
     {
-        if(this.#component) this.#component();
+        if(this.#render) this.#render();
     }
     getPrecondition()
     {

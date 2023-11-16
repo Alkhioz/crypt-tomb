@@ -18,7 +18,11 @@ export default class Router
         this.goTo(hash?.substring(1));
         this.#current_route = hash;
         window.addEventListener('hashchange', () => {
-            if(window.location.hash !== this.#current_route) this.goTo(window.location.hash?.substring(1));
+            let hash = window.location.hash;
+            if(!hash){
+                hash = `${this.#hash_navigator}/`;
+            }
+            if(hash !== this.#current_route) this.goTo(hash?.substring(1));
         });
     }
     getCurrentRoute()
@@ -27,7 +31,9 @@ export default class Router
     }
     goTo(url)
     {
-        console.log(url);
+        
+        if(url === this.getCurrentRoute()) return false;
+        this.#current_route = `${this.#hash_navigator}${url}`;
         const selectedRoute = this.#routes?.[url];
         if(!selectedRoute)
         {
@@ -38,11 +44,10 @@ export default class Router
         if((precondition?.status ?? true))
         {
             const redirection = selectedRoute.getRedirection();
-            console.log("redirection",redirection);
             if(redirection){
                 this.goTo(redirection);
             }else{
-                selectedRoute.getComponent();
+                selectedRoute.render();
                 window.history.pushState({}, "", `${this.#hash_navigator}${selectedRoute.getUrl()}`);
             }
         } else {

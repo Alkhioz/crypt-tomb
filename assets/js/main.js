@@ -14,11 +14,15 @@
         });
         const mainRoute = new Route({
             url: "/app",
-            component: ()=>console.log('main_component'),
+            render: ()=>console.log('main_component'),
         });
         const aboutRoute = new Route({
             url: "/about",
-            component: ()=>console.log('main_component'),
+            render: ()=>console.log('about_component'),
+        });
+        const otherRoute = new Route({
+            url: "/other",
+            render: ()=>console.log('other_component'),
             precondition: {
                 status: false,
                 callback: ()=> Router.goTo('/app'),
@@ -29,6 +33,7 @@
                 route,
                 mainRoute,
                 aboutRoute,
+                otherRoute,
             ],
         });
         Router.goTo('/about');
