@@ -3,26 +3,39 @@ const canEncryptData = () => {
 }
 
 /**
-         * Generates a random key based on the provided configuration.
-         * 
-         * @param {Object} config - The configuration object for generating the key.
-         * @param {boolean} config.uppercase - Indicates if uppercase characters should be included.
-         * @param {boolean} config.lowercase - Indicates if lowercase characters should be included.
-         * @param {boolean} config.numbers - Indicates if numeric characters should be included.
-         * @param {string[]} config.specialChars - Array of special characters to include.
-         * @param {number} config.length - The length of the key to be generated.
-         * @returns {string} The generated key.
-         *
-         * @example
-         * // Generate a 12-character key with uppercase, lowercase, and numbers
-         * generateRandomKey({ 
-         *     uppercase: true, 
-         *     lowercase: true, 
-         *     numbers: true, 
-         *     specialChars: [], 
-         *     length: 12 
-         * });
-         */
+ * Generates a random key based on the provided configuration.
+ * 
+ * @param {Object} config - The configuration object for generating the key.
+ * @param {boolean} config.uppercase - Indicates if uppercase characters should be included.
+ * @param {number} [config.minUppercase=1] - Minimum number of uppercase characters to include.
+ * @param {boolean} config.lowercase - Indicates if lowercase characters should be included.
+ * @param {number} [config.minLowercase=1] - Minimum number of lowercase characters to include.
+ * @param {boolean} config.numbers - Indicates if numeric characters should be included.
+ * @param {number} [config.minNumbers=1] - Minimum number of numeric characters to include.
+ * @param {string[]} config.specialChars - Array of special characters to include.
+ * @param {number} [config.minSpecialChars=1] - Minimum number of special characters to include.
+ * @param {number} config.length - The total length of the key to be generated.
+ * @returns {Object} An object with the status (true if successful, false if error) and the generated key or error message.
+ *
+ * @example
+ * // Generate a 12-character key with minimum 2 uppercase, 3 lowercase, 2 numbers, and 1 special character
+ * const result = generateRandomKey({ 
+ *     uppercase: true, 
+ *     lowercase: true, 
+ *     numbers: true, 
+ *     specialChars: ['!', '@', '#'],
+ *     minUppercase: 2,
+ *     minLowercase: 3,
+ *     minNumbers: 2,
+ *     minSpecialChars: 1,
+ *     length: 12 
+ * });
+ * if (result.status) {
+ *     console.log(result.password);
+ * } else {
+ *     console.error(result.error);
+ * }
+ */
 const generateRandomKey = (config) => {
     const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
@@ -30,22 +43,40 @@ const generateRandomKey = (config) => {
     let characters = '';
     let password = '';
 
-    // Add at least one of each required type
+    if(!config?.uppercase && !config?.lowercase && !config?.numbers && (!config?.specialChars || config?.specialChars?.length === 0)) return {
+        status: false,
+        error: 'Invalid configuration: At least one character type (uppercase, lowercase, numbers, or special characters) must be included.'
+    };
+
+    if(config?.minUppercase + config?.minLowercase + config?.minNumbers + config?.minSpecialChars > config.length) return {
+        status: false,
+        error: 'Invalid configuration: The total minimum required characters exceed the specified key length.'
+    };
+    
+
+    // Function to add a specific number of random characters from a given set
+    const addRandomChars = (charSet, count) => {
+        for (let i = 0; i < count; i++) {
+            password += charSet[Math.floor(Math.random() * charSet.length)];
+        }
+    };
+
+    // Add the minimum required characters of each type
     if (config.uppercase) {
+        addRandomChars(upperCaseChars, config?.minUppercase ?? 1);
         characters += upperCaseChars;
-        password += upperCaseChars[Math.floor(Math.random() * upperCaseChars.length)];
     }
     if (config.lowercase) {
+        addRandomChars(lowerCaseChars, config?.minLowercase ?? 1);
         characters += lowerCaseChars;
-        password += lowerCaseChars[Math.floor(Math.random() * lowerCaseChars.length)];
     }
     if (config.numbers) {
+        addRandomChars(numberChars, config?.minNumbers ?? 1);
         characters += numberChars;
-        password += numberChars[Math.floor(Math.random() * numberChars.length)];
     }
     if (config.specialChars && Array.isArray(config.specialChars)) {
+        addRandomChars(config.specialChars.join(''), config?.minSpecialChars ?? 1);
         characters += config.specialChars.join('');
-        password += config.specialChars[Math.floor(Math.random() * config.specialChars.length)];
     }
 
     // Fill the rest of the password length with random characters
@@ -57,8 +88,11 @@ const generateRandomKey = (config) => {
     // Shuffle the password to mix the initially added characters
     password = password.split('').sort(() => 0.5 - Math.random()).join('');
 
-    return password;
-}
+    return {
+        status: true,
+        password
+    };
+};
 
 const generateMasterKey = (keyLength = 32) => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -173,10 +207,11 @@ const readAccessKey = (accesKey) => {
     }
 }
 
-export default {
+export {
     canEncryptData,
     generateAccessKey,
     readAccessKey,
     encryptData,
     decryptData,
+    generateRandomKey,
 };

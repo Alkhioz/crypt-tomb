@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'VT323';
+    src: url('../fonts/VT323-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'VT323';
+}
+
+:root {
+    font-size: 16px;
+}
+
+.crypt-tomb-contianer{
+    display: grid;
+    justify-content: center;
+    width: 100svw;
+    height: 100svh;
+    background-color: hsl(183, 100%, 8%);
+}
+
+.crypt-tomb-content{
+    width: 100%;
+    max-width: 45rem;
+    padding: 1rem;
+    background-color: hsl(183, 10%, 28%);
+    color: hsl(79, 14%, 90%);
+}
+
+h1 {
+    color: hsl(49, 56%, 74%);
+    font-size: 3rem;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.crypt-tomb-logo {
+    display: grid;
+    width: 100%;
+    padding: 3rem;
+    user-select: none;
+    pointer-events: none;
+    justify-content: center;
+}
+
+.crypt-tomb-logo > img {
+    width: 100%;
+    max-width: 25rem;
+}
+
+
+.crypt-tomb-columns {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.crypt-tomb-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    background-color: hsl(183, 100%, 8%);
+    border: .2rem solid hsl(79, 14%, 90%);
+    outline: none;
+    color: hsl(79, 14%, 90%);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.crypt-tomb-disabled {
+    opacity: 45%;
+    pointer-events: none;
+}
+
+.crypt-tomb-button:hover {
+    scale: 105%;
+}
