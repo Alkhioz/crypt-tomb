@@ -81,6 +81,13 @@ export class AppPage extends HTMLElement {
                 key: 'innerText',
                 value: 'Generate password',
             },
+        ],[
+            {
+                name: 'click',
+                callback: ()=>{
+                    window.customRouter.goTo('/generate-password');
+                }
+            },
         ]);
         addChildren(this.innerElements.buttonContainer, [
             this.innerElements.addVaultButton,
