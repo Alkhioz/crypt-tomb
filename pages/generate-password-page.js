@@ -7,7 +7,7 @@ export class PasswordPage extends HTMLElement {
     }
 
     connectedCallback() {
-        this.classList.add('crypt-tomb-contianer');
+        this.classList.add('crypt-tomb-container');
         this.innerElements.content = createElement('div', [
             {
                 key: 'classList.add',
@@ -24,7 +24,13 @@ export class PasswordPage extends HTMLElement {
         this.innerElements.passwordGenerator = createElement('crypt-tomb-password-generator', [], [
             {
                 name: 'ramdomPasswordGenerated',
-                callback: (evt)=>console.log(evt.detail.value),
+                callback: (evt)=>{
+                    if(evt.detail.value.status){
+                        this.innerElements.showPassword.password = evt.detail.value.password;
+                    }else{
+                        this.innerElements.showPassword.password = '';
+                    }
+                },
             }
         ]);
         this.innerElements.goBackButton = createElement('button', [
@@ -43,9 +49,11 @@ export class PasswordPage extends HTMLElement {
                 }
             },
         ]);
+        this.innerElements.showPassword = createElement('crypt-tomb-show-password');
         addChildren(this.innerElements.content, [
             this.innerElements.title,
             this.innerElements.passwordGenerator,
+            this.innerElements.showPassword,
             this.innerElements.goBackButton,
         ]);
         addChildren(this, [this.innerElements.content]);

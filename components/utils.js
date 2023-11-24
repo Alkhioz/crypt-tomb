@@ -8,6 +8,7 @@
  * @param {string} childValueName - The property name of the child element to retrieve the value from.
  */
 function bindValueToParent(parentElement, childElement, eventName, parentPropertyName, childValueName) {
+    parentElement[parentPropertyName] = childElement[childValueName];
     childElement.addEventListener(eventName, () => {
         parentElement[parentPropertyName] = childElement[childValueName];
     });
@@ -17,7 +18,7 @@ function createElement(type, args, events) {
     const element = document.createElement(type);
 
     args?.forEach(arg => {
-        if (!arg.key.includes('.')) {
+        if (!arg?.key?.includes('.')) {
             element[arg.key] = arg.value;
         } else {
             let parts = arg.key.split('.');
@@ -49,6 +50,10 @@ function createElement(type, args, events) {
     return element;
 }
 
+function createTextNode (str) {
+    return document.createTextNode(str);
+}
+
 
 function createCheckBox (name) {
     const label = document.createElement('label');
@@ -65,7 +70,7 @@ function createCheckBox (name) {
     input.value = '0';
     input.step = '1';
     input.id = `input-${name}`;
-    input.style.visibility  = 'hidden';
+    input.style.display  = 'none';
     const check = document.createElement('div');
     check.checkboxValue = checkBox.checked;
     check.inputValue = input.value;
@@ -85,12 +90,12 @@ function createCheckBox (name) {
     );
     checkBox.addEventListener('change', () => {
         if (checkBox.checked) {
-            input.style.visibility  = 'visible';
-            input.value = '1';
+            input.style.display  = '';
+            input.value = '0';
             return;
         }
         input.value = '0';
-        input.style.visibility  = 'hidden';
+        input.style.display  = 'none';
     });
     addChildren(check, [
         label,
@@ -98,6 +103,73 @@ function createCheckBox (name) {
         input,
     ]);
     return check;
+}
+
+function createSpecialCharacters (name) {
+    const label = createElement('label', [
+        {
+            key: 'htmlFor',
+            value: name,
+        }
+    ]);
+    addChildren(label, [
+        createTextNode(name.toUpperCase()),
+    ]);
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '1';
+    input.value = '0';
+    input.step = '1';
+    input.id = `input-${name}`;
+    input.style.display  = 'none';
+    const element = createElement('input', [
+        {
+            key: 'id',
+            value: name,
+        },
+        {
+            key: 'name',
+            value: name,
+        },
+    ],[
+        {
+            name: 'input',
+            callback: ()=>{
+                const specialChars = "!@#$%^&*()_+[]{}|;:',.<>/?`~";
+                element.value = element.value.split('').filter((char, index, self) => 
+                    specialChars.includes(char) && self.indexOf(char) === index
+                ).join('');
+                if (element.value!=='') {
+                    input.style.display  = '';
+                    input.value = '0';
+                    return;
+                }
+                input.value = '0';
+                input.style.display  = 'none';
+            }
+        }
+    ]);
+    const spchar = createElement('div');
+    bindValueToParent(
+        spchar,
+        element,
+        'input',
+        'spValues',
+        'value',
+    );
+    bindValueToParent(
+        spchar,
+        input,
+        'input',
+        'spQuantity',
+        'value',
+    );
+    addChildren(spchar, [
+        label,
+        element,
+        input,
+    ])
+    return spchar;
 }
 
 function createInput(name){
@@ -156,6 +228,7 @@ function craeteButton(name, configuration){
 
 export {
     createElement,
+    createSpecialCharacters,
     createCheckBox,
     createFieldset,
     addChildren,
