@@ -17,7 +17,7 @@ function createElement(type, args, events) {
     const element = document.createElement(type);
 
     args?.forEach(arg => {
-        if (!arg.key.includes('.')) {
+        if (!arg?.key?.includes('.')) {
             element[arg.key] = arg.value;
         } else {
             let parts = arg.key.split('.');
@@ -47,6 +47,10 @@ function createElement(type, args, events) {
     });
 
     return element;
+}
+
+function createTextNode (str) {
+    return document.createTextNode(str);
 }
 
 
@@ -98,6 +102,73 @@ function createCheckBox (name) {
         input,
     ]);
     return check;
+}
+
+function createSpecialCharacters (name) {
+    const label = createElement('label', [
+        {
+            key: 'htmlFor',
+            value: name,
+        }
+    ]);
+    addChildren(label, [
+        createTextNode(name.toUpperCase()),
+    ]);
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '1';
+    input.value = '0';
+    input.step = '1';
+    input.id = `input-${name}`;
+    input.style.visibility  = 'hidden';
+    const element = createElement('input', [
+        {
+            key: 'id',
+            value: name,
+        },
+        {
+            key: 'name',
+            value: name,
+        },
+    ],[
+        {
+            name: 'input',
+            callback: ()=>{
+                const specialChars = "!@#$%^&*()_+[]{}|;:',.<>/?`~";
+                element.value = element.value.split('').filter((char, index, self) => 
+                    specialChars.includes(char) && self.indexOf(char) === index
+                ).join('');
+                if (element.value!=='') {
+                    input.style.visibility  = 'visible';
+                    input.value = '1';
+                    return;
+                }
+                input.value = '0';
+                input.style.visibility  = 'hidden';
+            }
+        }
+    ]);
+    const spchar = createElement('div');
+    bindValueToParent(
+        spchar,
+        element,
+        'input',
+        'spValues',
+        'value',
+    );
+    bindValueToParent(
+        spchar,
+        input,
+        'input',
+        'spQuantity',
+        'value',
+    );
+    addChildren(spchar, [
+        label,
+        element,
+        input,
+    ])
+    return spchar;
 }
 
 function createInput(name){
@@ -156,6 +227,7 @@ function craeteButton(name, configuration){
 
 export {
     createElement,
+    createSpecialCharacters,
     createCheckBox,
     createFieldset,
     addChildren,

@@ -7,7 +7,7 @@ export class AppPage extends HTMLElement {
     }
 
     connectedCallback() {
-        this.classList.add('crypt-tomb-contianer');
+        this.classList.add('crypt-tomb-container');
         this.innerElements.content = createElement('div', [
             {
                 key: 'classList.add',
