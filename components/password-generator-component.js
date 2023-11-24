@@ -45,11 +45,11 @@ export class PasswordGeneratorComponent extends HTMLElement {
                     lowercase: this.innerElements.lowercase.checkboxValue,
                     numbers: this.innerElements.numbers.checkboxValue,
                     specialChars: this.innerElements?.specialChars?.spValues?.split() ?? [],
-                    length: +(this.innerElements.input.inputValue),
-                    minUppercase: +(this.innerElements.uppercase.inputValue),
-                    minLowercase: +(this.innerElements.lowercase.inputValue),
-                    minNumbers: +(this.innerElements.numbers.inputValue),
-                    minSpecialChars: +(this.innerElements.specialChars.spQuantity),
+                    length: +(this.innerElements.input.inputValue ?? 0),
+                    minUppercase: +(this.innerElements.uppercase.inputValue ?? 0),
+                    minLowercase: +(this.innerElements.lowercase.inputValue ?? 0),
+                    minNumbers: +(this.innerElements.numbers.inputValue ?? 0),
+                    minSpecialChars: +(this.innerElements.specialChars.spQuantity ?? 0),
                 }),
             }
         });

@@ -8,7 +8,7 @@ export class ShowPasswordComponent extends HTMLElement {
 
     connectedCallback() {
         this.password = '';
-        this.style.visibility  = 'hidden';
+        this.style.display  = 'none';
         this.innerElements.container = createFieldset('New Password');
         this.innerElements.password = createElement('p');
         this.innerElements.copytoclipboard = createElement('button', [
@@ -48,10 +48,10 @@ export class ShowPasswordComponent extends HTMLElement {
 
     updateVisibility() {
         if (this.password) {
-            this.style.visibility = '';
+            this.style.display = '';
             this.innerElements.password.innerText = this.password;
         } else {
-            this.style.visibility  = 'hidden';
+            this.style.display  = 'none';
         }
     }
 

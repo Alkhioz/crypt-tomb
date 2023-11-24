@@ -43,7 +43,10 @@ const generateRandomKey = (config) => {
     let characters = '';
     let password = '';
 
-    if(!config?.uppercase && !config?.lowercase && !config?.numbers && (!config?.specialChars || config?.specialChars?.length === 0)) return {
+    if(
+        (!config?.uppercase && !config?.lowercase && !config?.numbers && (!config?.specialChars || config?.specialChars?.filter(el=>el!=='')?.length === 0))
+        || (config?.minUppercase + config?.minLowercase + config?.minNumbers + config?.minSpecialChars === 0)
+    ) return {
         status: false,
         error: 'Invalid configuration: At least one character type (uppercase, lowercase, numbers, or special characters) must be included.'
     };
@@ -62,19 +65,19 @@ const generateRandomKey = (config) => {
     };
 
     // Add the minimum required characters of each type
-    if (config.uppercase) {
+    if (config.uppercase && (config?.minUppercase ?? 0) > 0) {
         addRandomChars(upperCaseChars, config?.minUppercase ?? 1);
         characters += upperCaseChars;
     }
-    if (config.lowercase) {
+    if (config.lowercase  && (config?.minLowercase ?? 0) > 0) {
         addRandomChars(lowerCaseChars, config?.minLowercase ?? 1);
         characters += lowerCaseChars;
     }
-    if (config.numbers) {
+    if (config.numbers  && (config?.minNumbers ?? 0) > 0) {
         addRandomChars(numberChars, config?.minNumbers ?? 1);
         characters += numberChars;
     }
-    if (config.specialChars && Array.isArray(config.specialChars)) {
+    if (config.specialChars && Array.isArray(config.specialChars)  && (config?.minSpecialChars ?? 0) > 0) {
         addRandomChars(config.specialChars.join(''), config?.minSpecialChars ?? 1);
         characters += config.specialChars.join('');
     }

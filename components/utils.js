@@ -8,6 +8,7 @@
  * @param {string} childValueName - The property name of the child element to retrieve the value from.
  */
 function bindValueToParent(parentElement, childElement, eventName, parentPropertyName, childValueName) {
+    parentElement[parentPropertyName] = childElement[childValueName];
     childElement.addEventListener(eventName, () => {
         parentElement[parentPropertyName] = childElement[childValueName];
     });
@@ -69,7 +70,7 @@ function createCheckBox (name) {
     input.value = '0';
     input.step = '1';
     input.id = `input-${name}`;
-    input.style.visibility  = 'hidden';
+    input.style.display  = 'none';
     const check = document.createElement('div');
     check.checkboxValue = checkBox.checked;
     check.inputValue = input.value;
@@ -89,12 +90,12 @@ function createCheckBox (name) {
     );
     checkBox.addEventListener('change', () => {
         if (checkBox.checked) {
-            input.style.visibility  = 'visible';
-            input.value = '1';
+            input.style.display  = '';
+            input.value = '0';
             return;
         }
         input.value = '0';
-        input.style.visibility  = 'hidden';
+        input.style.display  = 'none';
     });
     addChildren(check, [
         label,
@@ -120,7 +121,7 @@ function createSpecialCharacters (name) {
     input.value = '0';
     input.step = '1';
     input.id = `input-${name}`;
-    input.style.visibility  = 'hidden';
+    input.style.display  = 'none';
     const element = createElement('input', [
         {
             key: 'id',
@@ -139,12 +140,12 @@ function createSpecialCharacters (name) {
                     specialChars.includes(char) && self.indexOf(char) === index
                 ).join('');
                 if (element.value!=='') {
-                    input.style.visibility  = 'visible';
-                    input.value = '1';
+                    input.style.display  = '';
+                    input.value = '0';
                     return;
                 }
                 input.value = '0';
-                input.style.visibility  = 'hidden';
+                input.style.display  = 'none';
             }
         }
     ]);
