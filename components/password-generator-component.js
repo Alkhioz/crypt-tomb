@@ -5,15 +5,16 @@ export class PasswordGeneratorComponent extends HTMLElement {
 
     constructor() {
         super();
+        this.innerElements = {};
     }
 
     connectedCallback() {
-        this.input = createInput('length');
-        this.container = createFieldset('Ramdom password generator');
-        this.uppercase = createCheckBox('uppercase');
-        this.lowercase = createCheckBox('lowercase');
-        this.numbers = createCheckBox('numbers');
-        this.generatePasswordButton = craeteButton('generate-password-button', {
+        this.innerElements.input = createInput('length');
+        this.innerElements.container = createFieldset('Ramdom password generator');
+        this.innerElements.uppercase = createCheckBox('uppercase');
+        this.innerElements.lowercase = createCheckBox('lowercase');
+        this.innerElements.numbers = createCheckBox('numbers');
+        this.innerElements.generatePasswordButton = craeteButton('generate-password-button', {
             text: 'Generate password',
             events: [
                 {
@@ -23,14 +24,14 @@ export class PasswordGeneratorComponent extends HTMLElement {
             ]
         });
 
-        addChildren(this.container, [
-            this.input,
-            this.uppercase,
-            this.lowercase,
-            this.numbers,
-            this.generatePasswordButton,
+        addChildren(this.innerElements.container, [
+            this.innerElements.input,
+            this.innerElements.uppercase,
+            this.innerElements.lowercase,
+            this.innerElements.numbers,
+            this.innerElements.generatePasswordButton,
         ]);
-        addChildren(this, this.container);
+        addChildren(this, this.innerElements.container);
     }
 
     onGeneratePassword() {
@@ -38,14 +39,14 @@ export class PasswordGeneratorComponent extends HTMLElement {
             bubbles: false,
             detail: {
                 value: generateRandomKey({
-                    uppercase: this.uppercase.checkboxValue,
-                    lowercase: this.lowercase.checkboxValue,
-                    numbers: this.numbers.checkboxValue,
+                    uppercase: this.innerElements.uppercase.checkboxValue,
+                    lowercase: this.innerElements.lowercase.checkboxValue,
+                    numbers: this.innerElements.numbers.checkboxValue,
                     specialChars: [],
-                    length: +(this.input.inputValue),
-                    minUppercase: +(this.uppercase.inputValue),
-                    minLowercase: +(this.lowercase.inputValue),
-                    minNumbers: +(this.numbers.inputValue),
+                    length: +(this.innerElements.input.inputValue),
+                    minUppercase: +(this.innerElements.uppercase.inputValue),
+                    minLowercase: +(this.innerElements.lowercase.inputValue),
+                    minNumbers: +(this.innerElements.numbers.inputValue),
                     minSpecialChars: 0,
                 }),
             }

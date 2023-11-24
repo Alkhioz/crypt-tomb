@@ -13,6 +13,43 @@ function bindValueToParent(parentElement, childElement, eventName, parentPropert
     });
 }
 
+function createElement(type, args, events) {
+    const element = document.createElement(type);
+
+    args?.forEach(arg => {
+        if (!arg.key.includes('.')) {
+            element[arg.key] = arg.value;
+        } else {
+            let parts = arg.key.split('.');
+            let current = element;
+
+            // Traverse the object structure, stopping at the last part
+            for (let i = 0; i < parts.length - 1; i++) {
+                current = current[parts[i]];
+                if (!current) return; // Exit if a part is not found
+            }
+
+            // Handle the last part
+            let lastPart = parts[parts.length - 1];
+            if (typeof current[lastPart] === 'function') {
+                // Call the function with proper context
+                current[lastPart].call(current, arg.value);
+            } else {
+                current[lastPart] = arg.value;
+            }
+        }
+    });
+
+    events?.forEach(event => {
+        const eventName = event?.name;
+        const callback = event?.callback;
+        if (eventName && callback) element.addEventListener(eventName, callback);
+    });
+
+    return element;
+}
+
+
 function createCheckBox (name) {
     const label = document.createElement('label');
     label.htmlFor = name;
@@ -118,6 +155,7 @@ function craeteButton(name, configuration){
 }
 
 export {
+    createElement,
     createCheckBox,
     createFieldset,
     addChildren,

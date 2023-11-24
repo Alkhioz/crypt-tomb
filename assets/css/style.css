@@ -78,6 +78,7 @@ h2 {
 .crypt-tomb-disabled {
     opacity: 45%;
     pointer-events: none;
+    user-select: none;
 }
 
 .crypt-tomb-button:hover {
