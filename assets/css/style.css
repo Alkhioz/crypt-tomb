@@ -18,15 +18,16 @@
 
 .crypt-tomb-container{
     display: grid;
-    justify-content: center;
+    justify-items: center;
     width: 100svw;
     height: 100svh;
     background-color: hsl(183, 100%, 8%);
+    grid-template-columns: 1fr;
 }
 
 .crypt-tomb-content{
     width: 100%;
-    max-width: 45rem;
+    max-width: 35rem;
     padding: 1rem;
     background-color: hsl(183, 10%, 28%);
     color: hsl(79, 14%, 90%);
@@ -83,4 +84,65 @@ h2 {
 
 .crypt-tomb-button:hover {
     scale: 105%;
+}
+
+.crypt-tomb-fieldset{
+    margin-bottom: 1rem;
+    padding: .5rem;
+}
+.crypt-tomb-fieldset-legend{
+    font-size: 1.5rem;
+    padding: .3rem;
+}
+
+.crypt-tomb-input-continer{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+
+.crypt-tomb-special-characteristics-container{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+
+.crypt-tomb-checkbox-container{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .5rem;
+    margin-bottom: .5rem;
+    justify-items: start;
+}
+
+.crypt-tomb-checkbox-label, .crypt-tomb-special-characteristics-label, .crypt-tomb-input-label{
+    padding: .2rem;
+    font-size: 1.5rem;
+}
+.crypt-tomb-checkbox-input, .crypt-tomb-special-characteristics-input, .crypt-tomb-input-input{
+    width: 100%;
+    padding: .2rem;
+    font-size: 1.5rem;
+}
+.crypt-tomb-special-characteristics-input-sm, .crypt-tomb-checkbox-input-sm{
+    max-width: 3rem;
+    width: 100%
+}
+.crypt-tomb-checkbox-checkBox{
+    width: 2.5rem;
+}
+
+.crypt-tomb-button-copy-password, .crypt-tomb-button-create-password{
+    color: hsl(183, 100%, 8%);
+    background-color: hsl(49, 56%, 74%);
+    font-size: 2rem;
+    padding: .2rem;
+}
+
+.crypt-tomb-generated-password{
+    text-align: center;
+    font-size: 2rem;
+    padding: .5rem;
 }
