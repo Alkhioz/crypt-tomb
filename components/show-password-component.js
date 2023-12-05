@@ -10,11 +10,22 @@ export class ShowPasswordComponent extends HTMLElement {
         this.password = '';
         this.style.display  = 'none';
         this.innerElements.container = createFieldset('New Password');
-        this.innerElements.password = createElement('p');
+        this.innerElements.password = createElement('p', [{
+            key: 'classList.add',
+            value: 'crypt-tomb-generated-password'
+        }]);
         this.innerElements.copytoclipboard = createElement('button', [
             {
                 key: 'innerText',
                 value: 'Copy to clipboard',
+            },
+            {
+                key: 'classList.add',
+                value: 'crypt-tomb-button',
+            },
+            {
+                key: 'classList.add',
+                value: 'crypt-tomb-button-copy-password',
             }
         ],[
             {

@@ -9,13 +9,24 @@ export class PasswordGeneratorComponent extends HTMLElement {
     }
 
     connectedCallback() {
-        this.innerElements.input = createInput('length');
+        this.innerElements.input = createInput('length', {
+            labelName: 'Length',
+            type: 'number',
+        });
         this.innerElements.container = createFieldset('Ramdom password generator');
-        this.innerElements.uppercase = createCheckBox('uppercase');
-        this.innerElements.lowercase = createCheckBox('lowercase');
-        this.innerElements.numbers = createCheckBox('numbers');
-        this.innerElements.specialChars = createSpecialCharacters('special-chars');
-        this.innerElements.generatePasswordButton = craeteButton('generate-password-button', {
+        this.innerElements.uppercase = createCheckBox('uppercase', {
+            labelName: 'Uppercase'
+        });
+        this.innerElements.lowercase = createCheckBox('lowercase', {
+            labelName: 'Lowercase'
+        });
+        this.innerElements.numbers = createCheckBox('numbers', {
+            labelName: 'Numbers'
+        });
+        this.innerElements.specialChars = createSpecialCharacters('special-chars', {
+            labelName: 'Special Characters',
+        });
+        this.innerElements.generatePasswordButton = craeteButton('create-password', {
             text: 'Generate password',
             events: [
                 {
