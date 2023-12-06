@@ -74,6 +74,7 @@ h2 {
 
 
 .crypt-tomb-columns {
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: .5rem;

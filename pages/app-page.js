@@ -26,23 +26,6 @@ export class AppPage extends HTMLElement {
                 value: 'Local password generator and manager',
             },
         ]);
-        this.innerElements.imageContainer = createElement('div', [
-            {
-                key: 'classList.add',
-                value: 'crypt-tomb-logo',
-            },
-        ]);
-        this.innerElements.logo = createElement('img', [
-            {
-                key: 'src',
-                value: './assets/img/logo.png',
-            },
-            {
-                key: 'alt',
-                value: 'A tombstone with a keyloak in the middle is a logo.',
-            },
-        ]);
-        addChildren(this.innerElements.imageContainer, [this.innerElements.logo]);
         this.innerElements.buttonContainer = createElement('div', [
             {
                 key: 'classList.add',
@@ -58,7 +41,7 @@ export class AppPage extends HTMLElement {
                 value: 'crypt-tomb-disabled',
             },{
                 key: 'innerText',
-                value: 'Add New Vault',
+                value: 'Create New Vault',
             },
         ]);
         this.innerElements.openVault = createElement('button', [
@@ -97,7 +80,6 @@ export class AppPage extends HTMLElement {
         addChildren(this.innerElements.content, [
             this.innerElements.title,
             this.innerElements.subtitle,
-            this.innerElements.imageContainer,
             this.innerElements.buttonContainer,
         ]);
         addChildren(this, [this.innerElements.content]);
