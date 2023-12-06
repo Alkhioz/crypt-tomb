@@ -10,7 +10,7 @@ export class ShowPasswordComponent extends HTMLElement {
         this.password = '';
         this.style.display  = 'none';
         this.innerElements.container = createFieldset('New Password');
-        this.innerElements.password = createElement('p', [{
+        this.innerElements.password = createElement('div', [{
             key: 'classList.add',
             value: 'crypt-tomb-generated-password'
         }]);

@@ -48,6 +48,7 @@ export class PasswordGeneratorComponent extends HTMLElement {
     }
 
     onGeneratePassword() {
+        if( +(this.innerElements.input.inputValue ?? 0) > 1000) return false;
         const customEvent = new CustomEvent('ramdomPasswordGenerated', {
             bubbles: false,
             detail: {
