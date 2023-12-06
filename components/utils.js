@@ -103,10 +103,12 @@ function createCheckBox (name, config=null) {
     checkBox.addEventListener('change', () => {
         if (checkBox.checked) {
             input.style.display  = '';
-            input.value = '0';
+            input.value = '1';
+            check.inputValue = '1';
             return;
         }
         input.value = '0';
+        check.inputValue = '0';
         input.style.display  = 'none';
     });
     addChildren(check, [
@@ -163,10 +165,12 @@ function createSpecialCharacters (name, config = null) {
                 ).join('');
                 if (element.value!=='') {
                     input.style.display  = '';
-                    input.value = '0';
+                    input.value = '1';
+                    spchar.spValues = '1'
                     return;
                 }
                 input.value = '0';
+                spchar.spValues = '0'
                 input.style.display  = 'none';
             }
         }
