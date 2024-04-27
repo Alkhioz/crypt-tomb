@@ -134,9 +134,10 @@ function createSpecialCharacters (name, config = null) {
     const input = document.createElement('input');
     input.type = 'number';
     input.min = '1';
-    input.value = '0';
+    input.value = '1';
     input.step = '1';
     input.id = `input-${name}`;
+    input.autocomplete = 'off';
     input.style.display  = 'none';
     input.classList.add('crypt-tomb-special-characteristics-input');
     input.classList.add(`crypt-tomb-special-characteristics-input-${name}`);
@@ -154,6 +155,10 @@ function createSpecialCharacters (name, config = null) {
         {
             key: 'classList.add',
             value: 'crypt-tomb-special-characteristics-input'
+        },
+        {
+            key: 'autocomplete',
+            value: 'off'
         }
     ],[
         {
@@ -212,6 +217,7 @@ function createInput(name, config=null){
     input.name = name;
     input.id = name;
     input.type = config?.type ? config?.type : 'text';
+    input.autocomplete = 'off';
     input.classList.add('crypt-tomb-input-input');
     input.classList.add(`crypt-tomb-input-input-${name}`);
     const div = document.createElement('div');
