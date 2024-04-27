@@ -30,11 +30,6 @@ const canEncryptData = () => {
  *     minSpecialChars: 1,
  *     length: 12 
  * });
- * if (result.status) {
- *     console.log(result.password);
- * } else {
- *     console.error(result.error);
- * }
  */
 const generateRandomKey = (config) => {
     const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
